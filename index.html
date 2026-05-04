@@ -1,0 +1,456 @@
+<!doctype html>
+<html lang="zh-Hant">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>績英 Email 追蹤儀表板｜未來樣貌示範</title>
+  <style>
+    :root {
+      --bg: #f5f7fa;
+      --panel: #ffffff;
+      --ink: #1f2937;
+      --muted: #667085;
+      --line: #d8dee8;
+      --nav: #152033;
+      --green: #168354;
+      --amber: #b7791f;
+      --red: #c03546;
+      --blue: #2563eb;
+      --teal: #0f766e;
+      --soft-green: #e7f5ee;
+      --soft-amber: #fff4d6;
+      --soft-red: #ffe8eb;
+      --soft-blue: #e9f1ff;
+      --shadow: 0 1px 2px rgba(16,24,40,.08), 0 10px 24px rgba(16,24,40,.06);
+    }
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      background: var(--bg);
+      color: var(--ink);
+      font-family: "Microsoft JhengHei", "Noto Sans TC", Arial, sans-serif;
+      letter-spacing: 0;
+    }
+    .app {
+      min-height: 100vh;
+      display: grid;
+      grid-template-columns: 236px minmax(0, 1fr);
+    }
+    aside {
+      background: var(--nav);
+      color: white;
+      padding: 20px 16px;
+      position: sticky;
+      top: 0;
+      height: 100vh;
+    }
+    .brand {
+      padding: 4px 4px 18px;
+      border-bottom: 1px solid rgba(255,255,255,.14);
+    }
+    .brand strong { display: block; font-size: 18px; line-height: 1.35; }
+    .brand span { display: block; color: #b9c5d6; font-size: 12px; margin-top: 5px; }
+    nav { display: grid; gap: 8px; margin-top: 18px; }
+    nav button {
+      border: 0;
+      border-radius: 8px;
+      min-height: 42px;
+      padding: 0 12px;
+      color: #dce5f3;
+      background: transparent;
+      text-align: left;
+      cursor: pointer;
+      font: inherit;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+    nav button.active, nav button:hover { background: rgba(255,255,255,.12); color: #fff; }
+    .ico {
+      width: 24px;
+      height: 24px;
+      border-radius: 6px;
+      display: inline-grid;
+      place-items: center;
+      background: rgba(255,255,255,.12);
+      font-size: 12px;
+      font-weight: 700;
+    }
+    .aside-note {
+      position: absolute;
+      left: 16px;
+      right: 16px;
+      bottom: 18px;
+      color: #b9c5d6;
+      font-size: 12px;
+      line-height: 1.6;
+    }
+    main { padding: 22px 24px 38px; min-width: 0; }
+    .topbar {
+      display: flex;
+      align-items: flex-start;
+      justify-content: space-between;
+      gap: 18px;
+      margin-bottom: 16px;
+    }
+    h1 { margin: 0 0 6px; font-size: 24px; line-height: 1.3; }
+    .sub { color: var(--muted); font-size: 14px; line-height: 1.5; }
+    .tools { display: flex; gap: 10px; flex-wrap: wrap; justify-content: flex-end; }
+    input, select, .btn {
+      height: 38px;
+      border: 1px solid var(--line);
+      background: white;
+      color: var(--ink);
+      border-radius: 8px;
+      padding: 0 12px;
+      font: inherit;
+    }
+    input { min-width: 260px; }
+    .btn { border: 0; background: var(--teal); color: white; cursor: pointer; }
+    .kpis {
+      display: grid;
+      grid-template-columns: repeat(6, minmax(120px, 1fr));
+      gap: 12px;
+      margin-bottom: 16px;
+    }
+    .kpi, .panel, .case-card, .timeline-item, .stage {
+      background: var(--panel);
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      box-shadow: var(--shadow);
+    }
+    .kpi {
+      min-height: 106px;
+      padding: 14px;
+      display: grid;
+      align-content: space-between;
+    }
+    .kpi label { color: var(--muted); font-size: 12px; }
+    .kpi strong { font-size: 28px; line-height: 1; }
+    .kpi span { color: var(--muted); font-size: 12px; }
+    .view { display: none; }
+    .view.active { display: block; }
+    .grid {
+      display: grid;
+      grid-template-columns: minmax(0, 1.15fr) minmax(360px, .85fr);
+      gap: 16px;
+      align-items: start;
+    }
+    .panel { padding: 16px; overflow: hidden; }
+    .head {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 12px;
+      margin-bottom: 12px;
+    }
+    h2 { margin: 0; font-size: 16px; line-height: 1.35; }
+    .hint { color: var(--muted); font-size: 12px; }
+    .case-list { display: grid; gap: 12px; }
+    .case-card {
+      padding: 14px;
+      display: grid;
+      gap: 10px;
+    }
+    .case-top {
+      display: flex;
+      justify-content: space-between;
+      gap: 12px;
+      align-items: flex-start;
+    }
+    .case-title strong { display: block; font-size: 15px; line-height: 1.35; }
+    .case-title span { color: var(--muted); font-size: 12px; }
+    .meta {
+      display: grid;
+      grid-template-columns: repeat(4, minmax(120px, 1fr));
+      gap: 8px;
+    }
+    .meta div {
+      background: #f7f9fc;
+      border: 1px solid #e6ebf2;
+      border-radius: 8px;
+      padding: 8px;
+      min-height: 56px;
+    }
+    .meta label { display: block; color: var(--muted); font-size: 12px; margin-bottom: 4px; }
+    .meta span { font-size: 13px; line-height: 1.35; }
+    .progress {
+      height: 9px;
+      border-radius: 999px;
+      background: #e6ebf2;
+      overflow: hidden;
+    }
+    .progress i {
+      display: block;
+      height: 100%;
+      width: var(--w);
+      background: var(--teal);
+      border-radius: inherit;
+    }
+    .badge {
+      display: inline-flex;
+      align-items: center;
+      min-height: 24px;
+      border-radius: 999px;
+      padding: 2px 9px;
+      font-size: 12px;
+      font-weight: 700;
+      white-space: nowrap;
+    }
+    .red { color: var(--red); background: var(--soft-red); }
+    .amber { color: var(--amber); background: var(--soft-amber); }
+    .green { color: var(--green); background: var(--soft-green); }
+    .blue { color: var(--blue); background: var(--soft-blue); }
+    .timeline { display: grid; gap: 10px; }
+    .timeline-item {
+      padding: 12px;
+      display: grid;
+      grid-template-columns: 52px 72px 1fr auto;
+      align-items: center;
+      gap: 10px;
+      font-size: 13px;
+    }
+    .table-wrap {
+      max-height: 620px;
+      overflow: auto;
+      border: 1px solid var(--line);
+      border-radius: 8px;
+    }
+    table { width: 100%; border-collapse: collapse; font-size: 13px; }
+    th, td {
+      padding: 10px 9px;
+      text-align: left;
+      vertical-align: top;
+      border-bottom: 1px solid var(--line);
+      line-height: 1.45;
+    }
+    th {
+      background: #f3f6fa;
+      color: #435064;
+      position: sticky;
+      top: 0;
+      z-index: 1;
+    }
+    .stage-grid {
+      display: grid;
+      grid-template-columns: repeat(7, minmax(112px, 1fr));
+      gap: 10px;
+      margin-bottom: 16px;
+    }
+    .stage { padding: 12px; min-height: 116px; }
+    .stage strong { display: block; font-size: 14px; margin-bottom: 8px; }
+    .stage small { display: block; color: var(--muted); margin-bottom: 8px; }
+    .bar { height: 10px; border-radius: 999px; background: #e6ebf2; overflow: hidden; }
+    .bar i { display: block; height: 100%; width: var(--w); background: var(--teal); border-radius: inherit; }
+    .notice {
+      background: #fffaf0;
+      border-left: 4px solid var(--amber);
+      border-radius: 8px;
+      padding: 12px 14px;
+      color: #5c4630;
+      font-size: 13px;
+      line-height: 1.6;
+      margin-bottom: 16px;
+    }
+    .split {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 16px;
+    }
+    @media (max-width: 1180px) {
+      .app { grid-template-columns: 1fr; }
+      aside { position: static; height: auto; }
+      .aside-note { position: static; margin-top: 18px; }
+      nav { grid-template-columns: repeat(4, minmax(120px, 1fr)); }
+      .kpis { grid-template-columns: repeat(3, 1fr); }
+      .grid, .split { grid-template-columns: 1fr; }
+      .stage-grid { grid-template-columns: repeat(2, 1fr); }
+    }
+    @media (max-width: 720px) {
+      main { padding: 16px; }
+      .topbar { display: grid; }
+      .tools, input, select, .btn { width: 100%; }
+      nav { grid-template-columns: 1fr; }
+      .kpis, .meta, .stage-grid { grid-template-columns: 1fr 1fr; }
+      .timeline-item { grid-template-columns: 48px 1fr; }
+      .timeline-item .badge { justify-self: start; }
+    }
+  </style>
+</head>
+<body>
+  <div class="app">
+    <aside>
+      <div class="brand">
+        <strong>績英 Email 追蹤</strong>
+        <span>未來樣貌示範 · 2026-04-25</span>
+      </div>
+      <nav>
+        <button class="active" data-view="dashboard"><span class="ico">01</span>主管總覽</button>
+        <button data-view="workbench"><span class="ico">02</span>Email 待辦</button>
+        <button data-view="cases"><span class="ico">03</span>案件追蹤</button>
+        <button data-view="sla"><span class="ico">04</span>SLA 風險</button>
+        <button data-view="automation"><span class="ico">05</span>自動化藍圖</button>
+      </nav>
+      <div class="aside-note">示範資料由現有 SOP 與 .msg 樣本推演。重點是讓主管理解未來上線後的管理視角。</div>
+    </aside>
+    <main>
+      <div class="topbar">
+        <div>
+          <h1>Email 後續追蹤儀表板</h1>
+          <div class="sub">未來每封寄出或收到的 Email 都會自動對應案件、SOP 流程、SLA 與下一步追蹤動作。</div>
+        </div>
+        <div class="tools">
+          <input id="q" placeholder="搜尋品牌、商品、採購、流程">
+          <select id="risk">
+            <option value="all">全部燈號</option>
+            <option value="red">只看紅燈</option>
+            <option value="amber">只看黃燈</option>
+            <option value="green">只看綠燈</option>
+          </select>
+          <button class="btn" id="reset">重設</button>
+        </div>
+      </div>
+      <section class="kpis">
+        <div class="kpi"><label>進行中案件</label><strong>8</strong><span>跨品牌 / 通路 / 檔期</span></div>
+        <div class="kpi"><label>逾期紅燈</label><strong>4</strong><span>需今日處理</span></div>
+        <div class="kpi"><label>今日到期</label><strong>2</strong><span>含缺貨與 POP 審核</span></div>
+        <div class="kpi"><label>等品牌回覆</label><strong>5</strong><span>備貨、效期、合約</span></div>
+        <div class="kpi"><label>等採購回覆</label><strong>2</strong><span>建檔、審品、POP</span></div>
+        <div class="kpi"><label>SOP 覆蓋率</label><strong>80%</strong><span>目前樣本可支援</span></div>
+      </section>
+
+      <section class="view active" id="dashboard">
+        <div class="grid">
+          <div class="panel">
+            <div class="head"><h2>今日優先處理</h2><span class="hint">依 SLA、到期日、流程風險排序</span></div>
+            <div id="priorityCases" class="case-list"></div>
+          </div>
+          <div class="panel">
+            <div class="head"><h2>今日 Email 動態</h2><span class="hint">未來由 Outlook 自動更新</span></div>
+            <div class="timeline" id="timeline"></div>
+          </div>
+        </div>
+      </section>
+
+      <section class="view" id="workbench">
+        <div class="notice">此頁是業務每天開啟的 Email 工作台：系統會告訴同仁要追哪封信、等誰回、逾期幾天、下一步怎麼做。</div>
+        <div class="panel">
+          <div class="head"><h2>Email 待辦清單</h2><span class="hint">以案件為中心，不再只靠 Outlook 搜尋</span></div>
+          <div class="table-wrap"><table id="todoTable"></table></div>
+        </div>
+      </section>
+
+      <section class="view" id="cases">
+        <div class="panel">
+          <div class="head"><h2>案件流程追蹤</h2><span class="hint">從品牌開發一路追到出貨、銷售與例外處理</span></div>
+          <div id="caseCards" class="case-list"></div>
+        </div>
+      </section>
+
+      <section class="view" id="sla">
+        <div class="stage-grid" id="stages"></div>
+        <div class="panel">
+          <div class="head"><h2>SLA 風險清單</h2><span class="hint">主管可直接看卡點與責任窗口</span></div>
+          <div class="table-wrap"><table id="riskTable"></table></div>
+        </div>
+      </section>
+
+      <section class="view" id="automation">
+        <div class="split">
+          <div class="panel">
+            <div class="head"><h2>資料如何自動進來</h2><span class="hint">未來系統流程</span></div>
+            <table>
+              <tbody>
+                <tr><th>1. Outlook</th><td>偵測寄出 / 收到 Email，擷取主旨、時間、寄件者、收件者、附件。</td></tr>
+                <tr><th>2. 主旨分類</th><td>依 SOP 關鍵字判斷流程項次，例如審品、備貨、保證金、缺貨申訴。</td></tr>
+                <tr><th>3. 案件對應</th><td>比對品牌、通路、SKU、檔期，更新案件目前狀態。</td></tr>
+                <tr><th>4. SLA 計算</th><td>依流程規則與回覆期限產生紅黃綠燈。</td></tr>
+                <tr><th>5. 儀表板</th><td>主管看總覽，業務看待辦，異常自動提醒。</td></tr>
+              </tbody>
+            </table>
+          </div>
+          <div class="panel">
+            <div class="head"><h2>主管可問的問題</h2><span class="hint">示範時可用</span></div>
+            <table>
+              <tbody>
+                <tr><th>哪些案件逾期？</th><td>看紅燈清單與下一步動作。</td></tr>
+                <tr><th>誰還沒回？</th><td>看 waitingFor 與收件對象。</td></tr>
+                <tr><th>卡在哪個流程？</th><td>看 SOP 項次與階段進度。</td></tr>
+                <tr><th>哪些需要主管介入？</th><td>紅燈超過 3 天或關檔前未完成。</td></tr>
+                <tr><th>資料完整嗎？</th><td>看 SOP 覆蓋率與缺範本流程。</td></tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </section>
+    </main>
+  </div>
+  <script id="mock-data" type="application/json">{"today":"2026-04-25","cases":[{"id":"JY-WAT-2604-001","brand":"NAIPIS KAROMIS 卡酪蜜思","vendor":"望群 W9243","channel":"Watsons","category":"FOOD","product":"乳酸菌多多","phase":"新品建檔","step":12,"stepName":"新品建檔表上傳 EHUB","owner":"業務A","buyer":"食品採購","lastEmail":"2026-04-22 10:18","waitingFor":"採購回覆建檔審核結果","due":"2026-04-24","sla":"red","daysOpen":3,"nextAction":"今天上午追採購，確認是否缺欄位或附件","progress":28,"amount":"尚未進入費用階段","attachments":"新品建檔表、商品圖、中文標","thread":"建檔請審核-改03檔隨手購"},{"id":"JY-WAT-2604-002","brand":"ONE DAYS YOU","vendor":"雄貿易 Y051","channel":"Watsons","category":"HAIR","product":"頭髮控油蜜粉","phase":"審品備貨","step":21,"stepName":"通知品牌通過審品","owner":"業務B","buyer":"Hair 採購","lastEmail":"2026-04-24 14:06","waitingFor":"品牌確認 1,500 個備貨與商品效期","due":"2026-04-26","sla":"amber","daysOpen":1,"nextAction":"明天中午前未回覆即提醒品牌窗口","progress":54,"amount":"備貨量 1,500 個","attachments":"店數明細、出貨通知","thread":"3/5 上架 494 家請增加備貨"},{"id":"JY-WAT-2604-003","brand":"美德醫療","vendor":"望群 SKIN","channel":"Watsons","category":"SKIN","product":"痘痘貼","phase":"合約保證金","step":18,"stepName":"確認合約與保證金","owner":"業務A","buyer":"Skin 採購","lastEmail":"2026-04-19 16:42","waitingFor":"品牌回傳用印合約與保證金支票寄出資訊","due":"2026-04-23","sla":"red","daysOpen":6,"nextAction":"升級主管提醒，避免關檔前 2 週未完成","progress":42,"amount":"保證金待確認","attachments":"委託合約、交易條件同意書、費用請款單","thread":"合約簽訂請 12/13 前用印"},{"id":"JY-WAT-2604-004","brand":"Mdmmd","vendor":"績英 HS","channel":"Watsons","category":"美材","product":"衛生棉","phase":"DM/EC 圖檔","step":23,"stepName":"通知品牌設計 DM","owner":"業務C","buyer":"美材採購","lastEmail":"2026-04-25 09:12","waitingFor":"品牌提供 DM 去背圖與活動文案","due":"2026-04-27","sla":"green","daysOpen":0,"nextAction":"等待品牌回覆；系統明日自動提醒","progress":61,"amount":"04 檔 DM","attachments":"DM 規格、範例圖","thread":"2/27 前提供 04 檔 DM 設計"},{"id":"JY-WAT-2604-005","brand":"KOCOSTAR / FARMSKIN","vendor":"望群 W9249","channel":"Watsons","category":"保養","product":"落地紙架組","phase":"POP 審核","step":28,"stepName":"提供 POP 設計給採購審核","owner":"業務B","buyer":"保養採購","lastEmail":"2026-04-23 11:35","waitingFor":"採購確認紙架設計修改版是否通過","due":"2026-04-25","sla":"amber","daysOpen":2,"nextAction":"今天下班前追採購，通過後通知品牌印刷","progress":68,"amount":"落地紙架 2 座","attachments":"POP 修改圖、陳列通告","thread":"紙架設計修改請幫忙審核"},{"id":"JY-WAT-2604-006","brand":"合益","vendor":"W021","channel":"Watsons","category":"FOOD","product":"蒟蒻葉黃素","phase":"訂單入庫","step":32,"stepName":"示範店小訂單 / 檔期大訂單","owner":"業務D","buyer":"Food 採購","lastEmail":"2026-04-24 17:50","waitingFor":"品牌確認 4/29 入庫與物流安排","due":"2026-04-26","sla":"green","daysOpen":1,"nextAction":"確認新竹貨運收件時間與棧板需求","progress":74,"amount":"訂單 25380140","attachments":"訂單、入庫通知","thread":"確定 02/17 到倉"},{"id":"JY-WAT-2604-007","brand":"雄貿易","vendor":"Y051","channel":"Watsons","category":"商化","product":"落地紙架","phase":"商化結案","step":30,"stepName":"POP 是否需要商化","owner":"業務C","buyer":"商化公司","lastEmail":"2026-04-18 13:20","waitingFor":"商化公司補結案報告與照片","due":"2026-04-22","sla":"red","daysOpen":7,"nextAction":"改電話追蹤，Email 補留紀錄","progress":70,"amount":"商化報價待回簽","attachments":"結案報告、照片","thread":"尚未收到 P12 檔護唇膏結案報告"},{"id":"JY-WAT-2604-008","brand":"雋品 HIBS","vendor":"績英食品","channel":"Watsons","category":"FOOD","product":"岩燒海苔","phase":"缺貨罰款","step":44,"stepName":"缺貨罰款申訴","owner":"業務D","buyer":"Food 採購","lastEmail":"2026-04-25 08:30","waitingFor":"品牌提供缺貨原因與進口延遲證明","due":"2026-04-25","sla":"red","daysOpen":0,"nextAction":"今日 15:00 前收齊申訴資料並回採購","progress":82,"amount":"到貨率未達 30%","attachments":"罰款通知、到貨率明細、申訴說明","thread":"到貨率未達標準扣款"}],"emailEvents":[["09:12","收到","Mdmmd","品牌已讀取 DM 規格，尚未上傳圖檔","green"],["10:18","寄出","卡酪蜜思","追蹤 EHUB 建檔審核結果","red"],["11:35","寄出","KOCOSTAR","POP 修改稿請採購確認","amber"],["13:20","收到","雄貿易商化","對方承諾今日補照片","amber"],["14:06","寄出","ONE DAYS YOU","通知備貨 1,500 個與效期","amber"],["15:00","待辦","雋品 HIBS","缺貨罰款申訴資料截止","red"]],"stageSummary":[["品牌開發",7,6,86],["建檔合約",7,5,71],["促銷審品",10,10,100],["POP 商化",7,6,86],["訂單扣款",4,4,100],["銷售維護",7,7,100],["例外客情",13,6,46]],"metrics":{"activeCases":8,"overdue":4,"dueToday":2,"waitingBrand":5,"waitingBuyer":2,"coverage":80}}</script>
+  <script>
+    const data = JSON.parse(document.getElementById("mock-data").textContent);
+    const state = { q: "", risk: "all" };
+    const $ = (id) => document.getElementById(id);
+    const esc = (v) => String(v ?? "").replace(/[&<>"']/g, (x) => ({ "&":"&amp;", "<":"&lt;", ">":"&gt;", '"':"&quot;", "'":"&#039;" }[x]));
+    const label = (sla) => sla === "red" ? "紅燈逾期" : sla === "amber" ? "黃燈追蹤" : "綠燈正常";
+    const cls = (sla) => sla === "red" ? "red" : sla === "amber" ? "amber" : "green";
+    const filtered = () => data.cases.filter((c) => {
+      const q = state.q.toLowerCase();
+      const hit = !q || Object.values(c).join(" ").toLowerCase().includes(q);
+      const risk = state.risk === "all" || c.sla === state.risk;
+      return hit && risk;
+    });
+    function caseCard(c) {
+      return `<article class="case-card">
+        <div class="case-top">
+          <div class="case-title">
+            <strong>${esc(c.brand)}｜${esc(c.product)}</strong>
+            <span>${esc(c.id)} · ${esc(c.channel)} · Step ${c.step} ${esc(c.stepName)}</span>
+          </div>
+          <span class="badge ${cls(c.sla)}">${label(c.sla)}</span>
+        </div>
+        <div class="progress"><i style="--w:${c.progress}%"></i></div>
+        <div class="meta">
+          <div><label>等待對象</label><span>${esc(c.waitingFor)}</span></div>
+          <div><label>期限</label><span>${esc(c.due)} · 已開 ${c.daysOpen} 天</span></div>
+          <div><label>負責人</label><span>${esc(c.owner)} / ${esc(c.buyer)}</span></div>
+          <div><label>下一步</label><span>${esc(c.nextAction)}</span></div>
+        </div>
+      </article>`;
+    }
+    function renderCases() {
+      const rows = filtered().sort((a,b) => ({red:0, amber:1, green:2}[a.sla] - {red:0, amber:1, green:2}[b.sla]));
+      $("priorityCases").innerHTML = rows.slice(0, 4).map(caseCard).join("");
+      $("caseCards").innerHTML = rows.map(caseCard).join("");
+      table($("todoTable"), ["燈號", "案件", "目前等待", "期限", "最近 Email", "下一步"], rows, (c) => `
+        <tr><td><span class="badge ${cls(c.sla)}">${label(c.sla)}</span></td><td><b>${esc(c.brand)}</b><br><span class="hint">${esc(c.product)} · Step ${c.step}</span></td><td>${esc(c.waitingFor)}</td><td>${esc(c.due)}</td><td>${esc(c.lastEmail)}<br><span class="hint">${esc(c.thread)}</span></td><td>${esc(c.nextAction)}</td></tr>`);
+      table($("riskTable"), ["案件", "風險", "卡關流程", "責任窗口", "附件 / 金額", "主管動作"], rows.filter(c => c.sla !== "green"), (c) => `
+        <tr><td><b>${esc(c.brand)}</b><br><span class="hint">${esc(c.id)}</span></td><td><span class="badge ${cls(c.sla)}">${label(c.sla)}</span></td><td>Step ${c.step} ${esc(c.stepName)}</td><td>${esc(c.owner)}<br><span class="hint">${esc(c.buyer)}</span></td><td>${esc(c.amount)}<br><span class="hint">${esc(c.attachments)}</span></td><td>${esc(c.nextAction)}</td></tr>`);
+    }
+    function table(target, headers, rows, renderRow) {
+      target.innerHTML = "<thead><tr>" + headers.map(h => `<th>${esc(h)}</th>`).join("") + "</tr></thead><tbody>" + rows.map(renderRow).join("") + "</tbody>";
+    }
+    function renderTimeline() {
+      $("timeline").innerHTML = data.emailEvents.map(([time, type, brand, text, sla]) => `
+        <div class="timeline-item"><b>${esc(time)}</b><span class="badge blue">${esc(type)}</span><span><b>${esc(brand)}</b><br><span class="hint">${esc(text)}</span></span><span class="badge ${cls(sla)}">${label(sla)}</span></div>`).join("");
+    }
+    function renderStages() {
+      $("stages").innerHTML = data.stageSummary.map(([name, total, covered, pct]) => `
+        <div class="stage"><strong>${esc(name)}</strong><small>${covered} / ${total} 類 Email 已有樣本</small><div class="bar"><i style="--w:${pct}%"></i></div><small>覆蓋率 ${pct}%</small></div>`).join("");
+    }
+    document.querySelectorAll("nav button").forEach((btn) => {
+      btn.addEventListener("click", () => {
+        document.querySelectorAll("nav button").forEach((x) => x.classList.remove("active"));
+        document.querySelectorAll(".view").forEach((x) => x.classList.remove("active"));
+        btn.classList.add("active");
+        $(btn.dataset.view).classList.add("active");
+      });
+    });
+    $("q").addEventListener("input", (e) => { state.q = e.target.value; renderCases(); });
+    $("risk").addEventListener("change", (e) => { state.risk = e.target.value; renderCases(); });
+    $("reset").addEventListener("click", () => { state.q = ""; state.risk = "all"; $("q").value = ""; $("risk").value = "all"; renderCases(); });
+    renderTimeline();
+    renderStages();
+    renderCases();
+  </script>
+</body>
+</html>
