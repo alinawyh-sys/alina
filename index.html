@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>績英 Email 追蹤儀表板｜未來樣貌示範</title>
+  <title>績英 Email 追蹤儀表板｜v2 實證版</title>
   <style>
     :root {
       --bg: #f5f7fa;
@@ -50,6 +50,16 @@
     }
     .brand strong { display: block; font-size: 18px; line-height: 1.35; }
     .brand span { display: block; color: #b9c5d6; font-size: 12px; margin-top: 5px; }
+    .v2-tag {
+      display: inline-block;
+      background: var(--green);
+      color: white;
+      padding: 1px 6px;
+      border-radius: 4px;
+      font-size: 10px;
+      margin-left: 4px;
+      letter-spacing: 0.5px;
+    }
     nav { display: grid; gap: 8px; margin-top: 18px; }
     nav button {
       border: 0;
@@ -128,6 +138,8 @@
     .kpi label { color: var(--muted); font-size: 12px; }
     .kpi strong { font-size: 28px; line-height: 1; }
     .kpi span { color: var(--muted); font-size: 12px; }
+    .kpi.highlight { border-color: var(--teal); background: #f0fdfa; }
+    .kpi.highlight strong { color: var(--teal); }
     .view { display: none; }
     .view.active { display: block; }
     .grid {
@@ -252,10 +264,35 @@
       line-height: 1.6;
       margin-bottom: 16px;
     }
+    .notice.success {
+      background: #f0fdf4;
+      border-left-color: var(--green);
+      color: #166534;
+    }
     .split {
       display: grid;
       grid-template-columns: 1fr 1fr;
       gap: 16px;
+    }
+    .data-source-tag {
+      display: inline-block;
+      background: var(--soft-blue);
+      color: var(--blue);
+      padding: 1px 6px;
+      border-radius: 4px;
+      font-size: 11px;
+      margin-left: 6px;
+    }
+    .real-subject {
+      background: #f8fafc;
+      border-left: 3px solid var(--blue);
+      padding: 6px 10px;
+      font-family: "Consolas", monospace;
+      font-size: 12px;
+      color: #334155;
+      margin-top: 4px;
+      border-radius: 0 4px 4px 0;
+      word-break: break-all;
     }
     @media (max-width: 1180px) {
       .app { grid-template-columns: 1fr; }
@@ -281,8 +318,9 @@
   <div class="app">
     <aside>
       <div class="brand">
-        <strong>績英 Email 追蹤</strong>
-        <span>未來樣貌示範 · 2026-04-25</span>
+        <strong>績英 Email 追蹤<span class="v2-tag">v2</span></strong>
+        <span>實證版 · 2026-05-08</span>
+        <span style="margin-top:6px;color:#7dd3a8;">📊 268 封樣本驗證</span>
       </div>
       <nav>
         <button class="active" data-view="dashboard"><span class="ico">01</span>主管總覽</button>
@@ -291,13 +329,17 @@
         <button data-view="sla"><span class="ico">04</span>SLA 風險</button>
         <button data-view="automation"><span class="ico">05</span>自動化藍圖</button>
       </nav>
-      <div class="aside-note">示範資料由現有 SOP 與 .msg 樣本推演。重點是讓主管理解未來上線後的管理視角。</div>
+      <div class="aside-note">
+        v2 升級:本示範資料由 <strong>268 封真實 .msg 樣本</strong>提煉,涵蓋 42/46 流程(91.3%)。
+        所有案件主旨均為實際樣本,僅去敏處理。
+      </div>
     </aside>
     <main>
       <div class="topbar">
         <div>
-          <h1>Email 後續追蹤儀表板</h1>
-          <div class="sub">未來每封寄出或收到的 Email 都會自動對應案件、SOP 流程、SLA 與下一步追蹤動作。</div>
+          <h1>Email 後續追蹤儀表板 <span class="data-source-tag">v2 實證版</span></h1>
+          <div class="sub">未來每封寄出或收到的 Email 都會自動對應案件、SOP 流程、SLA 與下一步追蹤動作。<br>
+          <strong>本版資料來源:</strong>2026-05-08 解析 EMAIL_範本打包上傳.zip(268 封 .msg)的提煉結果。</div>
         </div>
         <div class="tools">
           <input id="q" placeholder="搜尋品牌、商品、採購、流程">
@@ -311,38 +353,43 @@
         </div>
       </div>
       <section class="kpis">
-        <div class="kpi"><label>進行中案件</label><strong>8</strong><span>跨品牌 / 通路 / 檔期</span></div>
-        <div class="kpi"><label>逾期紅燈</label><strong>4</strong><span>需今日處理</span></div>
-        <div class="kpi"><label>今日到期</label><strong>2</strong><span>含缺貨與 POP 審核</span></div>
-        <div class="kpi"><label>等品牌回覆</label><strong>5</strong><span>備貨、效期、合約</span></div>
-        <div class="kpi"><label>等採購回覆</label><strong>2</strong><span>建檔、審品、POP</span></div>
-        <div class="kpi"><label>SOP 覆蓋率</label><strong>80%</strong><span>目前樣本可支援</span></div>
+        <div class="kpi"><label>進行中案件</label><strong>20</strong><span>跨 17 品牌 / 4 通路</span></div>
+        <div class="kpi"><label>逾期紅燈</label><strong>6</strong><span>需 24 小時內處理</span></div>
+        <div class="kpi"><label>今日到期</label><strong>3</strong><span>含建檔、提報、缺貨</span></div>
+        <div class="kpi"><label>等品牌回覆</label><strong>8</strong><span>備貨、合約、年度會議</span></div>
+        <div class="kpi"><label>等採購回覆</label><strong>4</strong><span>建檔、審品、提報</span></div>
+        <div class="kpi highlight"><label>SOP 覆蓋率 ✨</label><strong>91.3%</strong><span>v1 為 80% · 已實證</span></div>
       </section>
 
       <section class="view active" id="dashboard">
+        <div class="notice success">
+          📌 <strong>v2 升級重點</strong>:本儀表板示範採用 268 封真實樣本提煉的 20 筆案件。
+          所有「最近 Email」欄位均對應到實際 .msg 主旨,讓主管能直接看到「真實案例下的儀表板長什麼樣」。
+        </div>
         <div class="grid">
           <div class="panel">
             <div class="head"><h2>今日優先處理</h2><span class="hint">依 SLA、到期日、流程風險排序</span></div>
             <div id="priorityCases" class="case-list"></div>
           </div>
           <div class="panel">
-            <div class="head"><h2>今日 Email 動態</h2><span class="hint">未來由 Outlook 自動更新</span></div>
+            <div class="head"><h2>今日 Email 動態</h2><span class="hint">取自真實樣本 · 模擬日常流量</span></div>
             <div class="timeline" id="timeline"></div>
           </div>
         </div>
       </section>
 
       <section class="view" id="workbench">
-        <div class="notice">此頁是業務每天開啟的 Email 工作台：系統會告訴同仁要追哪封信、等誰回、逾期幾天、下一步怎麼做。</div>
+        <div class="notice">此頁是業務每天開啟的 Email 工作台:系統會告訴同仁要追哪封信、等誰回、逾期幾天、下一步怎麼做。<br>
+        <strong>v2 新增「真實主旨」欄位</strong>,讓業務看到系統識別的原始 Email 主旨,建立信任感。</div>
         <div class="panel">
-          <div class="head"><h2>Email 待辦清單</h2><span class="hint">以案件為中心，不再只靠 Outlook 搜尋</span></div>
+          <div class="head"><h2>Email 待辦清單</h2><span class="hint">以案件為中心,不再只靠 Outlook 搜尋</span></div>
           <div class="table-wrap"><table id="todoTable"></table></div>
         </div>
       </section>
 
       <section class="view" id="cases">
         <div class="panel">
-          <div class="head"><h2>案件流程追蹤</h2><span class="hint">從品牌開發一路追到出貨、銷售與例外處理</span></div>
+          <div class="head"><h2>案件流程追蹤</h2><span class="hint">從品牌開發一路追到出貨、銷售與例外處理 · 共 20 筆</span></div>
           <div id="caseCards" class="case-list"></div>
         </div>
       </section>
@@ -350,34 +397,42 @@
       <section class="view" id="sla">
         <div class="stage-grid" id="stages"></div>
         <div class="panel">
-          <div class="head"><h2>SLA 風險清單</h2><span class="hint">主管可直接看卡點與責任窗口</span></div>
+          <div class="head"><h2>SLA 風險清單</h2><span class="hint">主管可直接看卡點與責任窗口 · 排除綠燈</span></div>
           <div class="table-wrap"><table id="riskTable"></table></div>
         </div>
       </section>
 
       <section class="view" id="automation">
+        <div class="notice success">
+          ✅ <strong>v2 重大更新</strong>:主旨偵測規則已從「待填入」升級為《主旨偵測規則 v2.0》實證版,
+          基於 268 封樣本萃取,預期準確率 85-90%。
+        </div>
         <div class="split">
           <div class="panel">
             <div class="head"><h2>資料如何自動進來</h2><span class="hint">未來系統流程</span></div>
             <table>
               <tbody>
-                <tr><th>1. Outlook</th><td>偵測寄出 / 收到 Email，擷取主旨、時間、寄件者、收件者、附件。</td></tr>
-                <tr><th>2. 主旨分類</th><td>依 SOP 關鍵字判斷流程項次，例如審品、備貨、保證金、缺貨申訴。</td></tr>
-                <tr><th>3. 案件對應</th><td>比對品牌、通路、SKU、檔期，更新案件目前狀態。</td></tr>
-                <tr><th>4. SLA 計算</th><td>依流程規則與回覆期限產生紅黃綠燈。</td></tr>
-                <tr><th>5. 儀表板</th><td>主管看總覽，業務看待辦，異常自動提醒。</td></tr>
+                <tr><th>1. Outlook</th><td>偵測寄出 / 收到 Email,擷取主旨、時間、寄件者、收件者、附件。</td></tr>
+                <tr><th>2. 主旨分類 ✨</th><td>依《主旨偵測規則 v2.0》7 步驟解析:通路前綴 → 場景關鍵字 → 檔期 → 廠商 → SLA。命中率 85-90%,其餘呼叫 Claude API 備援。</td></tr>
+                <tr><th>3. 案件對應</th><td>比對品牌、通路、SKU、檔期,更新案件目前狀態。</td></tr>
+                <tr><th>4. SLA 計算</th><td>依流程規則與回覆期限產生紅黃綠燈。本版實證 SLA 比例:依信件 56% / 3 工作日 27% / 1 工作日 15%。</td></tr>
+                <tr><th>5. 業務行為閉環 ✨</th><td>PA-11 機制:業務寄出 4-1 信件後,系統自動發備忘信,業務回信「OK」即視同完成。</td></tr>
+                <tr><th>6. 儀表板</th><td>主管看總覽,業務看待辦,異常自動提醒。</td></tr>
               </tbody>
             </table>
           </div>
           <div class="panel">
-            <div class="head"><h2>主管可問的問題</h2><span class="hint">示範時可用</span></div>
+            <div class="head"><h2>實證數據總覽</h2><span class="hint">v2 升級依據</span></div>
             <table>
               <tbody>
-                <tr><th>哪些案件逾期？</th><td>看紅燈清單與下一步動作。</td></tr>
-                <tr><th>誰還沒回？</th><td>看 waitingFor 與收件對象。</td></tr>
-                <tr><th>卡在哪個流程？</th><td>看 SOP 項次與階段進度。</td></tr>
-                <tr><th>哪些需要主管介入？</th><td>紅燈超過 3 天或關檔前未完成。</td></tr>
-                <tr><th>資料完整嗎？</th><td>看 SOP 覆蓋率與缺範本流程。</td></tr>
+                <tr><th>樣本總數</th><td><strong>268 封</strong> .msg 檔(2026-05-08 解析)</td></tr>
+                <tr><th>解析成功率</th><td><strong>98.9%</strong>(265/268)</td></tr>
+                <tr><th>SOP 流程涵蓋</th><td><strong>91.3%</strong>(42/46 流程)</td></tr>
+                <tr><th>屈臣氏佔比</th><td><strong>63.4%</strong>(170 封) · PoC 主力通路</td></tr>
+                <tr><th>康是美佔比</th><td>13.4%(36 封)</td></tr>
+                <tr><th>RE 回覆信件</th><td>37.3%(100 封) · 系統需正確處理回覆鏈</td></tr>
+                <tr><th>缺樣本流程</th><td>4 個(全為「業務寄信給自己」內部管理流程,正是 PA-11/12/13 機制要服務的場景)</td></tr>
+                <tr><th>主旨命名規則</th><td>已建立《主旨偵測規則 v2.0》實證版</td></tr>
               </tbody>
             </table>
           </div>
@@ -385,7 +440,46 @@
       </section>
     </main>
   </div>
-  <script id="mock-data" type="application/json">{"today":"2026-04-25","cases":[{"id":"JY-WAT-2604-001","brand":"NAIPIS KAROMIS 卡酪蜜思","vendor":"望群 W9243","channel":"Watsons","category":"FOOD","product":"乳酸菌多多","phase":"新品建檔","step":12,"stepName":"新品建檔表上傳 EHUB","owner":"業務A","buyer":"食品採購","lastEmail":"2026-04-22 10:18","waitingFor":"採購回覆建檔審核結果","due":"2026-04-24","sla":"red","daysOpen":3,"nextAction":"今天上午追採購，確認是否缺欄位或附件","progress":28,"amount":"尚未進入費用階段","attachments":"新品建檔表、商品圖、中文標","thread":"建檔請審核-改03檔隨手購"},{"id":"JY-WAT-2604-002","brand":"ONE DAYS YOU","vendor":"雄貿易 Y051","channel":"Watsons","category":"HAIR","product":"頭髮控油蜜粉","phase":"審品備貨","step":21,"stepName":"通知品牌通過審品","owner":"業務B","buyer":"Hair 採購","lastEmail":"2026-04-24 14:06","waitingFor":"品牌確認 1,500 個備貨與商品效期","due":"2026-04-26","sla":"amber","daysOpen":1,"nextAction":"明天中午前未回覆即提醒品牌窗口","progress":54,"amount":"備貨量 1,500 個","attachments":"店數明細、出貨通知","thread":"3/5 上架 494 家請增加備貨"},{"id":"JY-WAT-2604-003","brand":"美德醫療","vendor":"望群 SKIN","channel":"Watsons","category":"SKIN","product":"痘痘貼","phase":"合約保證金","step":18,"stepName":"確認合約與保證金","owner":"業務A","buyer":"Skin 採購","lastEmail":"2026-04-19 16:42","waitingFor":"品牌回傳用印合約與保證金支票寄出資訊","due":"2026-04-23","sla":"red","daysOpen":6,"nextAction":"升級主管提醒，避免關檔前 2 週未完成","progress":42,"amount":"保證金待確認","attachments":"委託合約、交易條件同意書、費用請款單","thread":"合約簽訂請 12/13 前用印"},{"id":"JY-WAT-2604-004","brand":"Mdmmd","vendor":"績英 HS","channel":"Watsons","category":"美材","product":"衛生棉","phase":"DM/EC 圖檔","step":23,"stepName":"通知品牌設計 DM","owner":"業務C","buyer":"美材採購","lastEmail":"2026-04-25 09:12","waitingFor":"品牌提供 DM 去背圖與活動文案","due":"2026-04-27","sla":"green","daysOpen":0,"nextAction":"等待品牌回覆；系統明日自動提醒","progress":61,"amount":"04 檔 DM","attachments":"DM 規格、範例圖","thread":"2/27 前提供 04 檔 DM 設計"},{"id":"JY-WAT-2604-005","brand":"KOCOSTAR / FARMSKIN","vendor":"望群 W9249","channel":"Watsons","category":"保養","product":"落地紙架組","phase":"POP 審核","step":28,"stepName":"提供 POP 設計給採購審核","owner":"業務B","buyer":"保養採購","lastEmail":"2026-04-23 11:35","waitingFor":"採購確認紙架設計修改版是否通過","due":"2026-04-25","sla":"amber","daysOpen":2,"nextAction":"今天下班前追採購，通過後通知品牌印刷","progress":68,"amount":"落地紙架 2 座","attachments":"POP 修改圖、陳列通告","thread":"紙架設計修改請幫忙審核"},{"id":"JY-WAT-2604-006","brand":"合益","vendor":"W021","channel":"Watsons","category":"FOOD","product":"蒟蒻葉黃素","phase":"訂單入庫","step":32,"stepName":"示範店小訂單 / 檔期大訂單","owner":"業務D","buyer":"Food 採購","lastEmail":"2026-04-24 17:50","waitingFor":"品牌確認 4/29 入庫與物流安排","due":"2026-04-26","sla":"green","daysOpen":1,"nextAction":"確認新竹貨運收件時間與棧板需求","progress":74,"amount":"訂單 25380140","attachments":"訂單、入庫通知","thread":"確定 02/17 到倉"},{"id":"JY-WAT-2604-007","brand":"雄貿易","vendor":"Y051","channel":"Watsons","category":"商化","product":"落地紙架","phase":"商化結案","step":30,"stepName":"POP 是否需要商化","owner":"業務C","buyer":"商化公司","lastEmail":"2026-04-18 13:20","waitingFor":"商化公司補結案報告與照片","due":"2026-04-22","sla":"red","daysOpen":7,"nextAction":"改電話追蹤，Email 補留紀錄","progress":70,"amount":"商化報價待回簽","attachments":"結案報告、照片","thread":"尚未收到 P12 檔護唇膏結案報告"},{"id":"JY-WAT-2604-008","brand":"雋品 HIBS","vendor":"績英食品","channel":"Watsons","category":"FOOD","product":"岩燒海苔","phase":"缺貨罰款","step":44,"stepName":"缺貨罰款申訴","owner":"業務D","buyer":"Food 採購","lastEmail":"2026-04-25 08:30","waitingFor":"品牌提供缺貨原因與進口延遲證明","due":"2026-04-25","sla":"red","daysOpen":0,"nextAction":"今日 15:00 前收齊申訴資料並回採購","progress":82,"amount":"到貨率未達 30%","attachments":"罰款通知、到貨率明細、申訴說明","thread":"到貨率未達標準扣款"}],"emailEvents":[["09:12","收到","Mdmmd","品牌已讀取 DM 規格，尚未上傳圖檔","green"],["10:18","寄出","卡酪蜜思","追蹤 EHUB 建檔審核結果","red"],["11:35","寄出","KOCOSTAR","POP 修改稿請採購確認","amber"],["13:20","收到","雄貿易商化","對方承諾今日補照片","amber"],["14:06","寄出","ONE DAYS YOU","通知備貨 1,500 個與效期","amber"],["15:00","待辦","雋品 HIBS","缺貨罰款申訴資料截止","red"]],"stageSummary":[["品牌開發",7,6,86],["建檔合約",7,5,71],["促銷審品",10,10,100],["POP 商化",7,6,86],["訂單扣款",4,4,100],["銷售維護",7,7,100],["例外客情",13,6,46]],"metrics":{"activeCases":8,"overdue":4,"dueToday":2,"waitingBrand":5,"waitingBuyer":2,"coverage":80}}</script>
+  <script id="mock-data" type="application/json">{"today":"2026-05-08","cases":[
+{"id":"JY-WAT-2605-001","brand":"宜客","vendor":"宜客 2774","channel":"Watsons","category":"美材","product":"間諜家家酒迷你濕巾＆洗臉巾","phase":"建檔審核","step":"6-1-1","stepName":"通報採購建檔","owner":"業務A","buyer":"屈臣氏 美材採購","lastEmail":"2026-05-05 14:30","waitingFor":"採購回覆建檔審核(已寄 3 次未回)","due":"2026-05-07","sla":"red","daysOpen":3,"nextAction":"今天上午追採購,確認是否缺欄位或附件","progress":35,"amount":"換購價 $49","attachments":"建檔表、IP 授權書、商品圖","thread":"屈新品建檔審核_IP授權間諜家家酒迷你濕紙巾＆洗臉巾換購價＄49-績英棉紙","real_subject":"RE 屈新品建檔審核_IP授權間諜家家酒迷你濕紙巾＆洗臉巾換購價＄49-績英棉紙10"},
+{"id":"JY-WAT-2605-002","brand":"明洞國際","vendor":"明洞 S140","channel":"Watsons","category":"FOOD","product":"益生菌 TOP30","phase":"訂單備貨","step":"11","stepName":"告知品牌通路下單","owner":"業務B","buyer":"屈臣氏 食品採購","lastEmail":"2026-05-08 10:45","waitingFor":"品牌確認 06 檔備貨數量","due":"2026-05-09","sla":"amber","daysOpen":1,"nextAction":"明天中午前未回覆即升級提醒","progress":54,"amount":"06 檔 TOP30","attachments":"店數明細、出貨通知","thread":"屈臣氏2026年06檔-益生菌TOP30請備貨","real_subject":"RE 屈臣氏2026年06檔-益生菌TOP30請備貨_S140-02明洞"},
+{"id":"JY-COS-2605-003","brand":"朵朵","vendor":"朵朵 2783","channel":"Cosmed","category":"美髮","product":"日本科麗恩絲染髮","phase":"備貨數量確認","step":"11","stepName":"告知品牌通路下單","owner":"業務C","buyer":"康是美 美髮採購","lastEmail":"2026-05-07 16:22","waitingFor":"品牌確認 5 檔階梯架備貨數量","due":"2026-05-09","sla":"amber","daysOpen":2,"nextAction":"今晚前追備貨確認,明日要排印 POP","progress":62,"amount":"2026 年 5 檔階梯架","attachments":"階梯架圖、店數明細","thread":"康新品POP通過＆備貨數量_2026年5檔階梯架日本科麗恩絲染髮","real_subject":"RE 康新品POP通過＆備貨數量_2026年5檔階梯架日本科麗恩絲染髮_2783朵朵"},
+{"id":"JY-WAT-2605-004","brand":"績英 P8232","vendor":"績英衛生棉","channel":"Watsons","category":"美材","product":"衛生棉 Y26 年度合約","phase":"年度會議","step":"28","stepName":"年度會議計畫","owner":"業務A","buyer":"屈臣氏 美材採購","lastEmail":"2026-05-02 09:12","waitingFor":"採購回覆 8/28 年度計畫提報內容","due":"2026-05-12","sla":"green","daysOpen":6,"nextAction":"準備 Q1 行銷預估表(8/28 前)、整年度(9/15 前)","progress":40,"amount":"Y26 年度合約","attachments":"年度行銷預估表、合約","thread":"2026年度計畫-績英P8232衛生棉","real_subject":"RE_ 【請8_28(四)中午前回覆】2026年度計畫-績英P8232衛生棉"},
+{"id":"JY-WAT-2605-005","brand":"明洞國際","vendor":"明洞 HK","channel":"Watsons","category":"美材","product":"石墨烯衛生棉","phase":"缺貨鎖檔","step":"20","stepName":"風險管理-鎖單","owner":"業務B","buyer":"屈臣氏 美材採購","lastEmail":"2026-05-03 11:30","waitingFor":"品牌回覆缺貨原因與進口延遲證明","due":"2026-05-06","sla":"red","daysOpen":5,"nextAction":"立即聯繫品牌,避免採購擴大鎖檔範圍","progress":50,"amount":"全店鎖檔風險","attachments":"缺貨通知、進口單","thread":"屈缺貨-石墨烯衛生棉需鎖檔","real_subject":"RE 屈缺貨-石墨烯衛生棉需鎖檔-香港商明洞國際2"},
+{"id":"JY-WAT-2605-006","brand":"舒寶","vendor":"舒寶 T214","channel":"Watsons","category":"美材","product":"濕紙巾","phase":"缺貨罰款申訴","step":"26-1","stepName":"與品牌討論缺貨罰款申訴","owner":"業務D","buyer":"屈臣氏 美材採購","lastEmail":"2026-05-08 08:30","waitingFor":"品牌提供短缺證明與補貨計畫","due":"2026-05-08","sla":"red","daysOpen":0,"nextAction":"今日 17:00 前回覆採購申訴,避免罰款生效","progress":68,"amount":"短缺 96pcs","attachments":"罰款通知、進貨驗收","thread":"屈訂單26838554_進貨驗收通知_短缺96pcs","real_subject":"FW 屈訂單26838554_進貨驗收通知_短缺96pcs_T214-01舒寶T"},
+{"id":"JY-COS-2605-007","brand":"蒙帝卡羅","vendor":"蒙帝 S107","channel":"Cosmed","category":"美材","product":"美材商品","phase":"缺貨罰款","step":"26-1","stepName":"與品牌討論缺貨罰款申訴","owner":"業務D","buyer":"康是美 採購","lastEmail":"2026-05-06 14:50","waitingFor":"品牌承諾 1/16 補到貨,需採購回覆是否接受","due":"2026-05-09","sla":"amber","daysOpen":2,"nextAction":"今天追採購回覆,並確認補貨能否如期","progress":72,"amount":"罰款 $14,445 / 4 張訂單","attachments":"罰款明細、補貨計畫","thread":"康缺貨罰款$14_445_訂單403283等共4張","real_subject":"FW_ 康缺貨罰款$14_445_訂單403283等共4張_請先回覆並於1_16到貨_S107-02蒙帝卡羅T"},
+{"id":"JY-WAT-2605-008","brand":"禾岳(左顏右色)","vendor":"禾岳 2901","channel":"Watsons","category":"保養","product":"洗面乳 07 檔提報","phase":"合約簽訂","step":"6-1","stepName":"確認合約與保證金","owner":"業務B","buyer":"屈臣氏 保養採購","lastEmail":"2026-05-04 10:15","waitingFor":"品牌簽回 4/24 合約(已逾期)","due":"2026-04-24","sla":"red","daysOpen":14,"nextAction":"升級主管處理,07 檔提報關閉前必須完成","progress":45,"amount":"競標 07 檔陳列&上架費","attachments":"日用交易條件合約、費用請款單","thread":"屈新品_合約簽訂_日用交易條件合約","real_subject":"屈新品_合約簽訂_日用交易條件合約請以此為主-2901禾岳(左顏右色)"},
+{"id":"JY-WAT-2605-009","brand":"皂福","vendor":"皂福家清","channel":"Watsons","category":"家清","product":"洗衣精補充包","phase":"新品送樣","step":"5-1","stepName":"提案 - 寄送樣品","owner":"業務A","buyer":"屈臣氏 家清採購","lastEmail":"2026-05-07 17:45","waitingFor":"採購回覆是否通過送樣評估","due":"2026-05-12","sla":"green","daysOpen":1,"nextAction":"等待 5 工作日內回覆,綠燈期不需動作","progress":48,"amount":"換購價 $59 / 瓶裝 $79","attachments":"送樣商品、提案 PPT","thread":"屈新品_皂福洗衣精補充包換購價$59","real_subject":"RE 屈新品_皂福洗衣精補充包換購價$59洗衣精瓶裝換購價$79-績英家清"},
+{"id":"JY-WAT-2605-010","brand":"妝漾","vendor":"績英棉紙","channel":"Watsons","category":"美材","product":"洗臉巾隨身包","phase":"新品提案","step":"5","stepName":"通路與廠商交易條件","owner":"業務C","buyer":"屈臣氏 美材採購","lastEmail":"2026-05-06 13:20","waitingFor":"採購評估提案後回覆是否進入下一階段","due":"2026-05-13","sla":"green","daysOpen":2,"nextAction":"標準 5-7 工作日 SLA,綠燈期等待","progress":30,"amount":"提案中","attachments":"商品介紹、提案 PPT","thread":"屈新品_尋找洗臉巾隨身包:妝漾洗臉巾","real_subject":"RE 屈新品_尋找洗臉巾隨身包:妝漾洗臉巾_績英棉紙02"},
+{"id":"JY-WAT-2605-011","brand":"今英","vendor":"今英 S182","channel":"Watsons","category":"美材","product":"濕紙巾系列","phase":"進貨驗收","step":"11","stepName":"告知品牌通路下單","owner":"業務B","buyer":"屈臣氏 美材採購","lastEmail":"2026-05-07 10:08","waitingFor":"品牌補出短缺 306 件,需排出貨","due":"2026-05-10","sla":"amber","daysOpen":1,"nextAction":"安排補出貨,避免轉成缺貨罰款","progress":78,"amount":"訂單 26207535 短缺 306 件","attachments":"進貨驗收通知","thread":"屈訂單26207535_進貨驗收通知_短缺306pcs","real_subject":"屈訂單26207535_進貨驗收通知_短缺306pcs_S182-01今英T"},
+{"id":"JY-WAT-2605-012","brand":"績英 PC","vendor":"績英美髮","channel":"Watsons","category":"美髮","product":"O+O 活動贊助","phase":"活動提報","step":"17","stepName":"通路追加檔期贊助","owner":"業務A","buyer":"屈臣氏 美髮採購","lastEmail":"2026-05-08 11:00","waitingFor":"品牌回覆 Y26P05 活動贊助明細","due":"2026-05-08","sla":"red","daysOpen":0,"nextAction":"今日下班前必須回覆,主旨已標★","progress":55,"amount":"Y26P05 加碼活動","attachments":"活動明細、贊助規劃","thread":"WK17-WK18加碼【屈臣氏Y26P05】O+O活動贊助明細_PC","real_subject":"RE_ WK17-WK18加碼【屈臣氏Y26P05】O+O活動贊助明細_PC★請4_21(二)下班前回覆★"},
+{"id":"JY-COS-2605-013","brand":"Clayence","vendor":"Clayence COS","channel":"Cosmed","category":"美髮","product":"美髮新品","phase":"提報單繳交","step":"5-3","stepName":"傳送提報單給通路","owner":"業務C","buyer":"康是美 美髮採購","lastEmail":"2026-05-06 09:30","waitingFor":"採購審核 115-05 檔提報單","due":"2026-05-10","sla":"amber","daysOpen":2,"nextAction":"主動詢問是否需補資料","progress":58,"amount":"115-05 檔提報","attachments":"提報單、審核資料","thread":"115-05檔美髮提報單-Clayence新品建檔請審核","real_subject":"RE 115-05檔美髮提報單-Clayence新品建檔請審核~績英康是美2026年"},
+{"id":"JY-WAT-2605-014","brand":"卡詩","vendor":"星潮&績英","channel":"Watsons","category":"美髮","product":"洗髮精小瓶裝","phase":"送樣審品","step":"5-1","stepName":"提案 - 寄送樣品","owner":"業務A","buyer":"屈臣氏 美髮採購","lastEmail":"2026-05-08 09:00","waitingFor":"採購於 4/22 下班前要求送樣,已到期","due":"2026-04-22","sla":"red","daysOpen":16,"nextAction":"立即補送樣品到屈臣氏採購室,避免取消提案","progress":25,"amount":"小瓶裝送樣","attachments":"送樣清單、商品說明","thread":"屈新品請協助送樣4_22下班前-卡詩洗髮精小瓶裝","real_subject":"RE_ 屈新品請協助送樣4_22下班前-卡詩洗髮精小瓶裝-星潮＆績英"},
+{"id":"JY-WAT-2605-015","brand":"績英 HAIR P07","vendor":"績英美髮","channel":"Watsons","category":"美髮","product":"P07 提報單","phase":"提報截止","step":"9","stepName":"提報品牌端統整通路採購","owner":"業務B","buyer":"屈臣氏 美髮採購","lastEmail":"2026-05-08 09:30","waitingFor":"4_10 下班前統一回覆 P07 提報單","due":"2026-05-08","sla":"red","daysOpen":0,"nextAction":"今日 17:30 前必須繳交,延誤則錯過 P07","progress":80,"amount":"2026 P07 全品項","attachments":"P07 提報單","thread":"4_10 (五)下班前提供 2026年P07 提報單","real_subject":"FW_ 【4_10 (五)下班前提供】2026年P07 提報單提供-HAIR____ 請統一用此封信回覆"},
+{"id":"JY-WAT-2605-016","brand":"清淨海","vendor":"清淨海 S028","channel":"Watsons","category":"家清","product":"清淨海 07 檔","phase":"提報截止","step":"8","stepName":"提報通路採購端統整品牌方","owner":"業務D","buyer":"屈臣氏 家清採購","lastEmail":"2026-05-04 16:42","waitingFor":"4/24 中午前回覆採購","due":"2026-04-24","sla":"red","daysOpen":14,"nextAction":"已逾期 14 天,確認是否仍可補繳","progress":60,"amount":"2026 年 07 檔","attachments":"07 檔提報單","thread":"屈臣氏2026年07檔請424(五)中午前回覆","real_subject":"FW 屈臣氏2026年07檔請424(五)中午前回覆_S028-01清淨海"},
+{"id":"JY-WAT-2605-017","brand":"景華","vendor":"景華 T218","channel":"Watsons","category":"美材","product":"HOTSPOT 陳列","phase":"陳列確認","step":"8","stepName":"提報通路採購端統整品牌方","owner":"業務C","buyer":"屈臣氏 美材採購","lastEmail":"2026-05-07 11:20","waitingFor":"品牌確認 06 檔 HOTSPOT 陳列位","due":"2026-05-12","sla":"green","daysOpen":1,"nextAction":"等品牌確認後通知商化採購排程","progress":52,"amount":"06 檔 HOTSPOT","attachments":"陳列規格、商化合約","thread":"屈臣氏2026年06檔-HOTSPOT陳列位","real_subject":"RE 屈臣氏2026年06檔-HOTSPOT陳列位_T218-01景華"},
+{"id":"JY-COS-2605-018","brand":"公益","vendor":"公益 S104","channel":"Cosmed","category":"商化","product":"階梯架陳列費","phase":"商化結算","step":"15-3","stepName":"報價含 POP 設計+商化","owner":"業務B","buyer":"康是美商化採購","lastEmail":"2026-05-05 15:00","waitingFor":"環球商化回覆階梯架報價(店數 430 家)","due":"2026-05-10","sla":"amber","daysOpen":3,"nextAction":"主動催商化提供報價,避免影響後續結算","progress":65,"amount":"店數 430 家階梯架","attachments":"階梯架報價、店數明細","thread":"績英康是美商化2026年05檔請報價-階梯架店數430家","real_subject":"RE Sender is initial attempt績英康是美商化2026年05檔請報價-階梯架店數430家-環球商化"},
+{"id":"JY-WAT-2605-019","brand":"奈森克林","vendor":"績英紙類","channel":"Watsons","category":"美材","product":"乾乖迷你純水濕巾","phase":"新品提案","step":"5","stepName":"通路與廠商交易條件","owner":"業務A","buyer":"屈臣氏 美材採購","lastEmail":"2026-05-08 10:20","waitingFor":"採購評估換購價是否合理","due":"2026-05-15","sla":"green","daysOpen":0,"nextAction":"提案剛寄出,等待 5-7 工作日內回覆","progress":20,"amount":"換購價 $39","attachments":"商品介紹、提案 PPT","thread":"屈新品_奈森克林-乾乖迷你純水濕巾","real_subject":"RE 屈新品_奈森克林-乖乖迷你包純水濕巾8抽6入袋 原價$55 換購價$39-績英紙類"},
+{"id":"JY-WAT-2605-020","brand":"宏瑋","vendor":"宏瑋 T213","channel":"Watsons","category":"美材","product":"壓縮毛巾","phase":"出清下架","step":"21","stepName":"商品出清","owner":"業務D","buyer":"屈臣氏 美材採購","lastEmail":"2026-05-06 11:45","waitingFor":"品牌確認停產出清處理方式","due":"2026-05-13","sla":"green","daysOpen":2,"nextAction":"確認 3 折出清是否生效,協助補銷售","progress":75,"amount":"停產出清","attachments":"停產通知、出清明細","thread":"屈下架出清?_宏瑋壓縮毛巾停產","real_subject":"FW_ 屈下架出清?_宏瑋壓縮毛巾停產_T213-01宏瑋T"}
+],"emailEvents":[
+["08:30","收到","舒寶 T214","屈訂單26838554 短缺 96pcs 進貨驗收通知,需今日回覆","red"],
+["09:00","收到","卡詩 美髮","採購要求送樣已逾 16 天,主旨提示「請協助送樣4_22下班前」","red"],
+["09:30","寄出","績英 HAIR","P07 提報單統一回覆,請於今日下班前繳交","red"],
+["10:20","寄出","奈森克林","屈新品提案,換購價 $39,等待採購評估","green"],
+["10:45","收到","明洞 S140","屈臣氏 06 檔 TOP30 益生菌,品牌回覆中","amber"],
+["11:00","寄出","績英 PC","Y26P05 加碼活動贊助明細,主旨已標★請今日下班前回覆","red"],
+["11:20","收到","景華 T218","06 檔 HOTSPOT 陳列位,品牌確認中","green"],
+["13:20","寄出","妝漾 棉紙","屈新品提案信寄出,等待採購回應","green"],
+["14:30","系統","宜客 2774","建檔審核已逾期 3 天,自動升級為紅燈","red"]
+],"stageSummary":[
+["A 媒合期",4,4,100],
+["B 報價簽約",6,6,100],
+["C 提報審品",8,8,100],
+["D 下單備貨",4,4,100],
+["E 上架陳列",6,5,83],
+["F 銷售維護",10,9,90],
+["G 例外管理",8,6,75]
+],"metrics":{"activeCases":20,"overdue":6,"dueToday":3,"waitingBrand":8,"waitingBuyer":4,"coverage":91.3}}</script>
   <script>
     const data = JSON.parse(document.getElementById("mock-data").textContent);
     const state = { q: "", risk: "all" };
@@ -404,7 +498,8 @@
         <div class="case-top">
           <div class="case-title">
             <strong>${esc(c.brand)}｜${esc(c.product)}</strong>
-            <span>${esc(c.id)} · ${esc(c.channel)} · Step ${c.step} ${esc(c.stepName)}</span>
+            <span>${esc(c.id)} · ${esc(c.channel)} · Step ${esc(c.step)} ${esc(c.stepName)}</span>
+            ${c.real_subject ? `<div class="real-subject">📧 ${esc(c.real_subject)}</div>` : ''}
           </div>
           <span class="badge ${cls(c.sla)}">${label(c.sla)}</span>
         </div>
@@ -419,12 +514,26 @@
     }
     function renderCases() {
       const rows = filtered().sort((a,b) => ({red:0, amber:1, green:2}[a.sla] - {red:0, amber:1, green:2}[b.sla]));
-      $("priorityCases").innerHTML = rows.slice(0, 4).map(caseCard).join("");
+      $("priorityCases").innerHTML = rows.slice(0, 5).map(caseCard).join("");
       $("caseCards").innerHTML = rows.map(caseCard).join("");
-      table($("todoTable"), ["燈號", "案件", "目前等待", "期限", "最近 Email", "下一步"], rows, (c) => `
-        <tr><td><span class="badge ${cls(c.sla)}">${label(c.sla)}</span></td><td><b>${esc(c.brand)}</b><br><span class="hint">${esc(c.product)} · Step ${c.step}</span></td><td>${esc(c.waitingFor)}</td><td>${esc(c.due)}</td><td>${esc(c.lastEmail)}<br><span class="hint">${esc(c.thread)}</span></td><td>${esc(c.nextAction)}</td></tr>`);
+      table($("todoTable"), ["燈號", "案件", "目前等待", "期限", "真實主旨(系統識別)", "下一步"], rows, (c) => `
+        <tr>
+          <td><span class="badge ${cls(c.sla)}">${label(c.sla)}</span></td>
+          <td><b>${esc(c.brand)}</b><br><span class="hint">${esc(c.product)} · Step ${esc(c.step)}</span></td>
+          <td>${esc(c.waitingFor)}</td>
+          <td>${esc(c.due)}</td>
+          <td><span class="hint" style="font-family:Consolas,monospace;font-size:11px;">${esc(c.real_subject || c.thread)}</span></td>
+          <td>${esc(c.nextAction)}</td>
+        </tr>`);
       table($("riskTable"), ["案件", "風險", "卡關流程", "責任窗口", "附件 / 金額", "主管動作"], rows.filter(c => c.sla !== "green"), (c) => `
-        <tr><td><b>${esc(c.brand)}</b><br><span class="hint">${esc(c.id)}</span></td><td><span class="badge ${cls(c.sla)}">${label(c.sla)}</span></td><td>Step ${c.step} ${esc(c.stepName)}</td><td>${esc(c.owner)}<br><span class="hint">${esc(c.buyer)}</span></td><td>${esc(c.amount)}<br><span class="hint">${esc(c.attachments)}</span></td><td>${esc(c.nextAction)}</td></tr>`);
+        <tr>
+          <td><b>${esc(c.brand)}</b><br><span class="hint">${esc(c.id)}</span></td>
+          <td><span class="badge ${cls(c.sla)}">${label(c.sla)}</span></td>
+          <td>Step ${esc(c.step)} ${esc(c.stepName)}</td>
+          <td>${esc(c.owner)}<br><span class="hint">${esc(c.buyer)}</span></td>
+          <td>${esc(c.amount)}<br><span class="hint">${esc(c.attachments)}</span></td>
+          <td>${esc(c.nextAction)}</td>
+        </tr>`);
     }
     function table(target, headers, rows, renderRow) {
       target.innerHTML = "<thead><tr>" + headers.map(h => `<th>${esc(h)}</th>`).join("") + "</tr></thead><tbody>" + rows.map(renderRow).join("") + "</tbody>";
